@@ -32,8 +32,9 @@ const foldFrames = [
 
 foldFrames.forEach(frame => { const preload = new Image(); preload.src = frame.src; });
 
-let foldIndex = 0;
-let foldLayer = 0;
+const foldBase = foldLayers[0];
+const foldNext = foldLayers[1];
+let foldCopyIndex = -1;
 let running = false;
 
 const state = {
@@ -102,33 +103,45 @@ function updateLifestyle(progress) {
   lifestyleImage.style.transform = `translate3d(0, ${shift}%, 0)`;
 }
 
-function writeFoldCopy(frame, index) {
+function writeFoldCopy(index) {
+  if (index === foldCopyIndex) return;
+  foldCopyIndex = index;
+  const frame = foldFrames[index];
   if (foldNum) foldNum.textContent = String(index + 1).padStart(2, '0');
   if (foldName) foldName.textContent = frame.name;
   if (foldNotes) foldNotes.textContent = frame.notes;
+  if (foldBase) foldBase.alt = frame.alt;
 }
 
-function setFold(index) {
-  if (index === foldIndex || !foldLayers.length) return;
-  foldIndex = index;
+function setFoldSrc(image, index) {
+  if (!image || image.dataset.idx === String(index)) return;
   const frame = foldFrames[index];
-  const next = 1 - foldLayer;
-  foldLayers[next].src = frame.src;
-  foldLayers[next].alt = frame.alt;
-  if (foldActive && !reduceMotion) foldActive.classList.add('is-swap');
-  requestAnimationFrame(() => {
-    foldLayers[foldLayer].classList.remove('active');
-    foldLayers[next].classList.add('active');
-    foldLayer = next;
-    writeFoldCopy(frame, index);
-    foldActive?.classList.remove('is-swap');
-  });
+  image.src = frame.src;
+  image.dataset.idx = String(index);
 }
 
 function updateFold(progress) {
-  if (!foldLayers.length) return;
-  const scaled = clamp(progress * .999) * foldFrames.length;
-  setFold(Math.min(foldFrames.length - 1, Math.floor(scaled)));
+  if (!foldBase || !foldNext) return;
+  const count = foldFrames.length;
+  const scaled = clamp(progress * .999) * count;
+  const index = Math.min(count - 1, Math.floor(scaled));
+  const phase = scaled - index;
+  const nextIndex = Math.min(count - 1, index + 1);
+  const blending = nextIndex !== index;
+
+  setFoldSrc(foldBase, index);
+  setFoldSrc(foldNext, blending ? nextIndex : index);
+
+  const mixAmount = reduceMotion || !blending ? (phase >= .5 && blending ? 1 : 0) : ease(range(phase, .48, .98));
+  foldBase.style.opacity = 1 - mixAmount;
+  foldNext.style.opacity = mixAmount;
+  foldBase.style.transform = reduceMotion ? '' : `scale(${1 + mixAmount * .035})`;
+  foldNext.style.transform = reduceMotion ? '' : `scale(${1.035 - mixAmount * .035})`;
+
+  const copyIndex = mixAmount >= .5 && blending ? nextIndex : index;
+  const copyHold = blending ? 1 - Math.sin(range(phase, .42, .58) * Math.PI) : 1;
+  if (foldActive) foldActive.style.opacity = reduceMotion ? 1 : copyHold;
+  writeFoldCopy(copyIndex);
 }
 
 function updateInterface() {
