@@ -198,15 +198,45 @@ if (lineupFold) filmObserver.observe(lineupFold);
 addEventListener('resize', requestRender);
 requestRender();
 
-const aPlusTrack = document.querySelector('.a-plus-track');
-function scrollAPlus(direction) {
-  if (!aPlusTrack) return;
-  const card = aPlusTrack.querySelector('.a-plus-card');
-  const step = card ? card.getBoundingClientRect().width + 22 : aPlusTrack.clientWidth * .7;
-  aPlusTrack.scrollBy({ left: direction * step, behavior: reduceMotion ? 'auto' : 'smooth' });
+const aPlusTrack = document.getElementById('a-plus-track') || document.querySelector('.a-plus-track');
+const aPlusLayers = [...document.querySelectorAll('.a-plus-layer')];
+if (aPlusTrack) {
+  const aPlusCards = [...aPlusTrack.querySelectorAll('.a-plus-card')];
+  const setStoryIndex = index => {
+    aPlusCards.forEach((card, i) => card.classList.toggle('is-active', i === index));
+    aPlusLayers.forEach((layer, i) => layer.classList.toggle('is-on', i === index));
+  };
+  const cardStep = () => {
+    const card = aPlusTrack.querySelector('.a-plus-card');
+    return card ? card.getBoundingClientRect().width + 18 : aPlusTrack.clientWidth * .7;
+  };
+  const storyIO = new IntersectionObserver(entries => {
+    const visible = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (visible) setStoryIndex(Number(visible.target.dataset.index) || aPlusCards.indexOf(visible.target));
+  }, { root: aPlusTrack, threshold: [.45, .6, .75] });
+  aPlusCards.forEach(card => storyIO.observe(card));
+
+  aPlusTrack.addEventListener('wheel', event => {
+    if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+    event.preventDefault();
+    aPlusTrack.scrollBy({ left: event.deltaY, behavior: 'auto' });
+  }, { passive: false });
+
+  aPlusTrack.addEventListener('keydown', event => {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+    event.preventDefault();
+    const dir = event.key === 'ArrowRight' ? 1 : -1;
+    aPlusTrack.scrollBy({ left: dir * cardStep(), behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+
+  function scrollAPlus(direction) {
+    aPlusTrack.scrollBy({ left: direction * cardStep(), behavior: reduceMotion ? 'auto' : 'smooth' });
+  }
+  document.querySelector('.a-plus-nav.prev')?.addEventListener('click', () => scrollAPlus(-1));
+  document.querySelector('.a-plus-nav.next')?.addEventListener('click', () => scrollAPlus(1));
 }
-document.querySelector('.a-plus-nav.prev')?.addEventListener('click', () => scrollAPlus(-1));
-document.querySelector('.a-plus-nav.next')?.addEventListener('click', () => scrollAPlus(1));
 
 const OCCASION_TAGS = ['day', 'night', 'party', 'office', 'date', 'brunch', 'weekend', 'travel'];
 
