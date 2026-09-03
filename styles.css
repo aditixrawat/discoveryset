@@ -336,8 +336,16 @@ button { padding: 0; border: 0; background: none; color: inherit; font: inherit;
 .object-meter b { display: block; width: 0; height: 100%; background: #090909; }
 
 .lineup-fold { position: relative; z-index: 2; height: 720dvh; background: var(--paper); }
-.fold-stage { position: sticky; top: 0; height: 100dvh; overflow: hidden; background: var(--paper); }
-.fold-media { position: absolute; inset: 0; }
+.fold-stage {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--paper);
+}
+.fold-media { position: relative; min-height: 0; height: 100%; overflow: hidden; }
 .fold-layer {
   position: absolute;
   inset: 0;
@@ -347,39 +355,54 @@ button { padding: 0; border: 0; background: none; color: inherit; font: inherit;
   object-position: center 38%;
   opacity: 0;
 }
-.fold-overlay { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
-.fold-overlay:before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 0%, transparent 62%, rgba(255,255,255,.5) 100%);
+.fold-overlay {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  align-items: center;
+  padding: var(--pad) clamp(28px, 4vw, 64px);
+  pointer-events: none;
 }
+.fold-overlay:before { content: none; }
 .fold-active {
-  position: absolute;
-  left: var(--pad);
-  bottom: max(36px, calc(env(safe-area-inset-bottom) + 12px));
-  max-width: min(420px, 78vw);
+  position: relative;
+  left: auto;
+  bottom: auto;
+  max-width: 28rem;
 }
 .fold-active span { display: block; font-size: 11px; letter-spacing: .16em; color: var(--mute); font-variant-numeric: tabular-nums; }
 .fold-active h3 { margin: 10px 0 0; font-size: clamp(18px, 2vw, 28px); font-weight: 500; letter-spacing: .08em; }
 .fold-active p { margin: 10px 0 0; max-width: var(--measure); font-size: 15px; line-height: 1.55; color: var(--mute); }
 
-.craft { position: relative; z-index: 2; display: block; background: var(--paper); }
+.craft {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "copy media";
+  min-height: 100dvh;
+  background: var(--paper);
+}
 .craft-media {
+  grid-area: media;
   margin: 0;
   width: 100%;
-  height: min(58dvh, 640px);
+  min-height: 100dvh;
+  height: 100%;
   overflow: hidden;
 }
 .craft-media img {
   width: 100%;
   height: 100%;
+  min-height: 100dvh;
   object-fit: cover;
   object-position: 42% 50%;
 }
 .craft-copy {
-  max-width: 36rem;
-  padding: var(--s6) var(--pad) calc(var(--s6) + 8px);
+  grid-area: copy;
+  align-self: center;
+  max-width: none;
+  padding: var(--pad);
 }
 .craft-copy h2 {
   margin: 0;
@@ -569,10 +592,32 @@ footer p { margin: 0; font-size: 11px; font-weight: 500; letter-spacing: .14em; 
   .object-meter { left: 18px; right: 18px; bottom: calc(72px + env(safe-area-inset-bottom)); }
 
   .lineup-fold { height: 640dvh; }
-  .fold-active { left: 18px; right: 18px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: none; }
+  .fold-stage { display: block; }
+  .fold-media { position: absolute; inset: 0; height: auto; }
+  .fold-overlay {
+    position: absolute;
+    inset: 0;
+    display: block;
+    padding: 0;
+  }
+  .fold-overlay:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, transparent 62%, rgba(255,255,255,.5) 100%);
+  }
+  .fold-active {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: calc(76px + env(safe-area-inset-bottom));
+    max-width: none;
+  }
   .fold-active h3 { font-size: 22px; }
 
-  .craft-media { height: 48dvh; }
+  .craft { display: block; min-height: 0; }
+  .craft-media { height: 48dvh; min-height: 0; }
+  .craft-media img { min-height: 0; height: 100%; }
   .craft-copy { padding: var(--s5) 18px var(--s6); }
   .craft-copy h2 { font-size: clamp(32px, 9vw, 44px); }
 
