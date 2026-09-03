@@ -13,18 +13,21 @@ const lifestyle = document.querySelector('.lifestyle');
 const lifestyleImage = document.querySelector('.lifestyle-stage img');
 const lineupFold = document.querySelector('.lineup-fold');
 const foldLayers = [...document.querySelectorAll('.fold-layer')];
-const foldItems = [...document.querySelectorAll('.fold-list li')];
+const foldActive = document.getElementById('fold-active');
+const foldNum = document.getElementById('fold-num');
+const foldName = document.getElementById('fold-name');
+const foldNotes = document.getElementById('fold-notes');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const foldFrames = [
-  { src: 'assets/images/fold/01.png', alt: 'Faith At Last with bergamot, amber and leather' },
-  { src: 'assets/images/fold/02.png', alt: 'Figue Off with fig, grass and red wood' },
-  { src: 'assets/images/fold/03.png', alt: 'Tonic 29 with yuzu, basil and tea' },
-  { src: 'assets/images/fold/04.png', alt: 'Going Home with jasmine, salt and musk' },
-  { src: 'assets/images/fold/05.png', alt: 'Quando Noir with cypress, suede and patchouli' },
-  { src: 'assets/images/fold/06.png', alt: 'Café Curio with espresso, tobacco and leather' },
-  { src: 'assets/images/fold/07.png', alt: 'Fragile Moss with rhubarb, pepper and vetiver' },
-  { src: 'assets/images/fold/08.png', alt: 'Talk Tonight with champagne, apple and oakmoss' }
+  { src: 'assets/images/fold/01.png', name: 'Faith At Last', notes: 'Bergamot rind, blue amber, cashmere leather.', alt: 'Faith At Last with bergamot, amber and leather' },
+  { src: 'assets/images/fold/02.png', name: 'Figue Off', notes: 'Cut grass, fig, red wood.', alt: 'Figue Off with fig, grass and red wood' },
+  { src: 'assets/images/fold/03.png', name: 'Tonic 29', notes: 'Yuzu citrus, crushed basil, Japanese tea.', alt: 'Tonic 29 with yuzu, basil and tea' },
+  { src: 'assets/images/fold/04.png', name: 'Going Home', notes: 'Jasmine tea, sea salt, skin musk.', alt: 'Going Home with jasmine, salt and musk' },
+  { src: 'assets/images/fold/05.png', name: 'Quando Noir', notes: 'Cypress bark, suede leather, dark patchouli.', alt: 'Quando Noir with cypress, suede and patchouli' },
+  { src: 'assets/images/fold/06.png', name: 'Café Curio', notes: 'Italian espresso, dry tobacco, saffiano leather.', alt: 'Café Curio with espresso, tobacco and leather' },
+  { src: 'assets/images/fold/07.png', name: 'Fragile Moss', notes: 'Rhubarb stem, Japanese pepper, Haitian vetiver.', alt: 'Fragile Moss with rhubarb, pepper and vetiver' },
+  { src: 'assets/images/fold/08.png', name: 'Talk Tonight', notes: 'Champagne, green apple, oakmoss.', alt: 'Talk Tonight with champagne, apple and oakmoss' }
 ];
 
 foldFrames.forEach(frame => { const preload = new Image(); preload.src = frame.src; });
@@ -95,8 +98,14 @@ function inView(element) {
 function updateLifestyle(progress) {
   if (!lifestyleImage) return;
   const mobile = innerWidth < 701;
-  const shift = reduceMotion ? 0 : (mobile ? mix(-1.2, 2.2, progress) : mix(-3.5, 6.5, progress));
+  const shift = reduceMotion ? 0 : (mobile ? mix(-2, 3, progress) : mix(-6, 8, progress));
   lifestyleImage.style.transform = `translate3d(0, ${shift}%, 0)`;
+}
+
+function writeFoldCopy(frame, index) {
+  if (foldNum) foldNum.textContent = String(index + 1).padStart(2, '0');
+  if (foldName) foldName.textContent = frame.name;
+  if (foldNotes) foldNotes.textContent = frame.notes;
 }
 
 function setFold(index) {
@@ -106,16 +115,18 @@ function setFold(index) {
   const next = 1 - foldLayer;
   foldLayers[next].src = frame.src;
   foldLayers[next].alt = frame.alt;
+  if (foldActive && !reduceMotion) foldActive.classList.add('is-swap');
   requestAnimationFrame(() => {
     foldLayers[foldLayer].classList.remove('active');
     foldLayers[next].classList.add('active');
     foldLayer = next;
+    writeFoldCopy(frame, index);
+    foldActive?.classList.remove('is-swap');
   });
-  foldItems.forEach((item, i) => item.classList.toggle('active', i === index));
 }
 
 function updateFold(progress) {
-  if (!foldItems.length) return;
+  if (!foldLayers.length) return;
   const scaled = clamp(progress * .999) * foldFrames.length;
   setFold(Math.min(foldFrames.length - 1, Math.floor(scaled)));
 }

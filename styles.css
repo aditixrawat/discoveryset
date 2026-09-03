@@ -8,8 +8,8 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; background: #070707; font-family: var(--sans); }
-body { margin: 0; overflow-x: hidden; background: #070707; color: var(--ink); font-family: var(--sans); font-weight: 300; }
+html { scroll-behavior: smooth; background: #070707; overflow-x: clip; font-family: var(--sans); }
+body { margin: 0; overflow-x: clip; background: #070707; color: var(--ink); font-family: var(--sans); font-weight: 300; }
 h1, h2, h3, h4, h5, h6, button, label { font-family: inherit; }
 img { display: block; width: 100%; }
 a { color: inherit; text-decoration: none; }
@@ -53,60 +53,42 @@ button { padding: 0; border: 0; background: none; color: inherit; font: inherit;
 .object-meter > i { height: 1px; background: rgba(255,255,255,.2); }
 .object-meter b { display: block; width: 0; height: 100%; background: #fff; }
 
-/* Second fold — Built-style pinned feature scroll */
-.lineup-fold { position: relative; z-index: 2; height: 800svh; background: #f7f5ef; }
-.fold-stage {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(340px, .95fr);
-  align-items: center;
-  gap: clamp(28px, 5vw, 80px);
-  padding: 4vh var(--pad);
-  background: #f7f5ef;
-}
-.fold-media {
-  position: relative;
-  height: min(86vh, 920px);
-  overflow: hidden;
-  background: #fff;
-}
+/* Second fold — pinned full-bleed stills, copy overlaid */
+.lineup-fold { position: relative; z-index: 2; height: 800svh; background: #fff; }
+.fold-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #fff; }
+.fold-media { position: absolute; inset: 0; }
 .fold-layer {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 42%;
+  object-position: center 38%;
   opacity: 0;
-  transition: opacity .7s var(--ease);
+  transition: opacity .75s var(--ease);
 }
 .fold-layer.active { opacity: 1; }
-.fold-copy { max-width: 520px; padding: 2vh 0 8vh; }
-.fold-copy .eyebrow { color: rgba(10,10,10,.5); }
-.fold-copy h2 {
-  margin: 16px 0 36px;
-  font-size: clamp(36px, 4.2vw, 62px);
+.fold-overlay { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.fold-kicker { position: absolute; left: var(--pad); top: 28px; max-width: min(520px, 72vw); }
+.fold-kicker .eyebrow { color: rgba(10,10,10,.5); }
+.fold-kicker h2 {
+  margin: 14px 0 0;
+  font-size: clamp(32px, 3.8vw, 56px);
   font-weight: 400;
   line-height: 1.02;
   letter-spacing: -.035em;
 }
-.fold-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
-.fold-list li {
-  display: grid;
-  grid-template-columns: 36px 1fr;
-  gap: 14px;
-  align-items: start;
-  padding: 13px 0;
-  border-bottom: 1px solid var(--line);
-  opacity: .28;
+.fold-active {
+  position: absolute;
+  left: var(--pad);
+  bottom: 36px;
+  max-width: min(420px, 78vw);
   transition: opacity .35s;
 }
-.fold-list li.active { opacity: 1; }
-.fold-list span { padding-top: 3px; font-size: 9px; letter-spacing: .16em; color: rgba(10,10,10,.45); }
-.fold-list h3 { margin: 0; font-size: 15px; font-weight: 400; letter-spacing: -.01em; }
-.fold-list p { margin: 6px 0 0; font-size: 12px; line-height: 1.5; color: rgba(0,0,0,.5); }
+.fold-active.is-swap { opacity: 0; }
+.fold-active span { display: block; font-size: 9px; letter-spacing: .18em; color: rgba(10,10,10,.45); }
+.fold-active h3 { margin: 10px 0 0; font-size: clamp(22px, 2.4vw, 34px); font-weight: 400; letter-spacing: -.02em; }
+.fold-active p { margin: 10px 0 0; font-size: 14px; line-height: 1.55; color: rgba(0,0,0,.56); }
 
 /* Find your scent — occasion filter */
 .finder { position: relative; z-index: 2; isolation: isolate; padding: 10vh var(--pad) 12vh; background: #f7f5ef; }
@@ -137,17 +119,16 @@ button { padding: 0; border: 0; background: none; color: inherit; font: inherit;
 .finder-score i { display: block; margin-top: 7px; height: 1px; background: rgba(10,10,10,.12); }
 .finder-score i em { display: block; height: 100%; background: #090909; }
 
-/* Lifestyle parallax — sticky photo, beige closing slides over */
-.lifestyle { position: relative; z-index: 1; height: 180svh; background: #070707; }
-.lifestyle-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+/* Lifestyle parallax — pinned photo, finder/A+ slide over */
+.lifestyle { position: relative; z-index: 0; height: 200svh; background: #070707; }
+.lifestyle-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #070707; }
 .lifestyle-stage img {
   position: absolute;
-  left: 0;
-  top: -8%;
+  inset: -12% 0;
   width: 100%;
-  height: 116%;
+  height: 124%;
   object-fit: cover;
-  object-position: 8% 22%;
+  object-position: 18% 28%;
   will-change: transform;
 }
 
@@ -250,31 +231,23 @@ footer p { margin: 0; font-size: 8px; letter-spacing: .16em; color: rgba(255,255
   .object-meter { left: 18px; right: 18px; bottom: 86px; }
 
   .lineup-fold { height: 720svh; }
-  .fold-stage {
-    grid-template-columns: 1fr;
-    align-content: start;
-    gap: 10px;
-    padding: 10px 18px 88px;
-  }
-  .fold-media { height: 46svh; }
-  .fold-copy { max-width: none; padding: 0; }
-  .fold-copy h2 { margin: 10px 0 16px; font-size: 9.5vw; }
-  .fold-list li { padding: 9px 0; }
-  .fold-list h3 { font-size: 13px; }
-  .fold-list p { display: none; }
-  .fold-list li.active p { display: block; font-size: 11px; }
+  .fold-kicker { left: 18px; right: 18px; top: 18px; max-width: none; }
+  .fold-kicker h2 { font-size: 8.4vw; }
+  .fold-active { left: 18px; right: 18px; bottom: 88px; max-width: none; }
+  .fold-active h3 { font-size: 22px; }
+  .fold-active p { font-size: 13px; }
 
   .finder { padding: 8vh 18px 10vh; }
   .finder-head h2 { font-size: 10vw; }
   .finder-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 12px; }
   .finder-card h3 { font-size: 12px; }
 
-  .lifestyle { height: 128svh; }
-  .lifestyle-stage { height: 48svh; }
+  .lifestyle { height: 140svh; }
+  .lifestyle-stage { height: 52svh; }
   .lifestyle-stage img {
-    top: -4%;
-    height: 108%;
-    object-position: 4% 22%;
+    inset: -6% 0;
+    height: 112%;
+    object-position: 12% 26%;
   }
 
   .a-plus { padding: 7vh 0 10vh; }
@@ -306,5 +279,5 @@ footer p { margin: 0; font-size: 8px; letter-spacing: .16em; color: rgba(255,255
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *:before, *:after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-  .lifestyle-stage img { top: 0; height: 100%; transform: none; will-change: auto; }
+  .lifestyle-stage img { inset: 0; height: 100%; transform: none; will-change: auto; }
 }
