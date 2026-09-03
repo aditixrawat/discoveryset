@@ -32,8 +32,7 @@ const foldFrames = [
 
 foldFrames.forEach(frame => { const preload = new Image(); preload.src = frame.src; });
 
-const foldBase = foldLayers[0];
-const foldNext = foldLayers[1];
+const foldStage = document.querySelector('.fold-stage');
 let foldCopyIndex = -1;
 let running = false;
 
@@ -110,36 +109,46 @@ function writeFoldCopy(index) {
   if (foldNum) foldNum.textContent = String(index + 1).padStart(2, '0');
   if (foldName) foldName.textContent = frame.name;
   if (foldNotes) foldNotes.textContent = frame.notes;
-  if (foldBase) foldBase.alt = frame.alt;
 }
 
-function setFoldSrc(image, index) {
-  if (!image || image.dataset.idx === String(index)) return;
-  const frame = foldFrames[index];
-  image.src = frame.src;
-  image.dataset.idx = String(index);
+function foldScrollPos() {
+  if (!lineupFold || foldLayers.length < 2) return 0;
+  const pinH = foldStage ? foldStage.clientHeight : innerHeight;
+  const total = lineupFold.offsetHeight - pinH;
+  const scrolled = clamp(-lineupFold.getBoundingClientRect().top, 0, Math.max(total, 0));
+  return total > 0 ? (scrolled / total) * (foldLayers.length - 1) : 0;
 }
 
-function updateFold(progress) {
-  if (!foldBase || !foldNext) return;
-  const count = foldFrames.length;
-  const scaled = clamp(progress * .999) * count;
-  const index = Math.min(count - 1, Math.floor(scaled));
-  const phase = scaled - index;
-  const nextIndex = Math.min(count - 1, index + 1);
-  const blending = nextIndex !== index;
+function updateFold() {
+  if (foldLayers.length < 2) return;
+  const maxPos = foldLayers.length - 1;
+  const pos = clamp(foldScrollPos(), 0, maxPos);
+  const base = Math.min(maxPos, Math.floor(pos));
+  const frac = pos - base;
 
-  setFoldSrc(foldBase, index);
-  setFoldSrc(foldNext, blending ? nextIndex : index);
+  foldLayers.forEach((frame, i) => {
+    if (i === base) {
+      frame.style.opacity = '1';
+      frame.style.webkitMaskImage = 'none';
+      frame.style.maskImage = 'none';
+      frame.style.zIndex = '1';
+    } else if (i === base + 1) {
+      const edge = reduceMotion ? (frac >= .5 ? 100 : 0) : frac * 100;
+      const mask = `linear-gradient(to top, #000 ${edge.toFixed(1)}%, transparent ${Math.min(edge + 12, 100).toFixed(1)}%)`;
+      frame.style.opacity = '1';
+      frame.style.webkitMaskImage = mask;
+      frame.style.maskImage = mask;
+      frame.style.zIndex = '2';
+    } else {
+      frame.style.opacity = '0';
+      frame.style.webkitMaskImage = 'none';
+      frame.style.maskImage = 'none';
+      frame.style.zIndex = '0';
+    }
+  });
 
-  const mixAmount = reduceMotion || !blending ? (phase >= .5 && blending ? 1 : 0) : ease(range(phase, .48, .98));
-  foldBase.style.opacity = 1 - mixAmount;
-  foldNext.style.opacity = mixAmount;
-  foldBase.style.transform = reduceMotion ? '' : `scale(${1 + mixAmount * .035})`;
-  foldNext.style.transform = reduceMotion ? '' : `scale(${1.035 - mixAmount * .035})`;
-
-  const copyIndex = mixAmount >= .5 && blending ? nextIndex : index;
-  const copyHold = blending ? 1 - Math.sin(range(phase, .42, .58) * Math.PI) : 1;
+  const copyIndex = frac >= .5 && base < maxPos ? base + 1 : base;
+  const copyHold = base < maxPos ? 1 - Math.sin(range(frac, .42, .58) * Math.PI) : 1;
   if (foldActive) foldActive.style.opacity = reduceMotion ? 1 : copyHold;
   writeFoldCopy(copyIndex);
 }
@@ -160,13 +169,13 @@ function render() {
     state.lifestyleCurrent += (state.lifestyleTarget - state.lifestyleCurrent) * .09;
   }
   if (lineupFold) {
-    state.foldTarget = localProgress(lineupFold);
-    state.foldCurrent += (state.foldTarget - state.foldCurrent) * .09;
+    state.foldTarget = foldScrollPos();
+    state.foldCurrent += (state.foldTarget - state.foldCurrent) * .18;
   }
 
   updateObject(state.objectCurrent);
   updateLifestyle(state.lifestyleCurrent);
-  updateFold(state.foldCurrent);
+  updateFold();
   updateInterface();
 
   const moving = Math.abs(state.objectTarget - state.objectCurrent) > .00035

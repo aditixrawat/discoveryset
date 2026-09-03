@@ -65,10 +65,8 @@ button { padding: 0; border: 0; background: none; color: inherit; font: inherit;
   object-fit: cover;
   object-position: center 38%;
   opacity: 0;
-  will-change: opacity, transform;
+  will-change: opacity, mask-image;
 }
-.fold-layer.base { opacity: 1; z-index: 1; }
-.fold-layer.next { z-index: 2; }
 .fold-overlay { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
 .fold-kicker { position: absolute; left: var(--pad); top: 28px; max-width: min(520px, 72vw); }
 .fold-kicker .eyebrow { color: rgba(10,10,10,.5); }
