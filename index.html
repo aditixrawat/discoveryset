@@ -4,37 +4,38 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
-  <meta name="description" content="An exclusive first-look collection crafted for the curious.">
-  <title>Rare Axis — The Lineup</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="assets/images/hero-invitation.jpg">
+  <meta name="description" content="The Lineup: eight 3 ml compositions in one case, to wear before you choose.">
+  <title>Rare Axis - The Lineup</title>
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin.woff2" crossorigin>
   <link rel="preload" as="image" href="assets/images/open-case.png">
   <link rel="preload" as="image" href="assets/images/fold/01.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a class="skip" href="#invitation">Skip to content</a>
   <div class="page-rule" aria-hidden="true"><i id="page-progress"></i></div>
 
   <header class="site-header">
-    <button class="menu" aria-label="Open menu"><i></i><i></i></button>
     <a class="axis-mark" href="#top" aria-label="Rare Axis home"><b>RARE</b><span>A&nbsp;&nbsp;X&nbsp;&nbsp;I&nbsp;&nbsp;S</span></a>
     <p>THE HOUSE OF RARE</p>
-    <div class="header-actions"><button>SEARCH</button><button>BAG&nbsp; 0</button></div>
+    <div class="header-actions"><span class="bag-count" aria-live="polite">BAG&nbsp; 0</span></div>
   </header>
 
-  <a class="shop-dock dark" href="#purchase"><span>ACQUIRE THE COLLECTION</span><i>↗</i></a>
+  <a class="shop-dock is-hidden" href="#purchase">Acquire the Collection</a>
 
   <main id="top">
-    <section class="launch-hero" id="invitation" aria-label="The Inaugural Discovery Collection">
+    <section class="launch-hero" id="invitation" aria-label="The Lineup">
       <div class="launch-media" aria-hidden="true">
-        <img src="assets/images/hero-invitation.jpg" alt="">
+        <img src="assets/images/open-case.png" alt="">
+      </div>
+      <div class="launch-brand">
+        <h1>
+          <span>The</span>
+          <span>Lineup</span>
+        </h1>
       </div>
       <div class="launch-copy">
-        <p class="eyebrow">THE INAUGURAL COLLECTION</p>
-        <h1>An Invitation to the Unseen.</h1>
-        <p>An exclusive first-look collection crafted for the curious. Explore eight distinct olfactive pathways before they are revealed to the world.</p>
+        <p>Eight 3&nbsp;ml compositions in one case.</p>
         <a class="launch-cta" href="#object-film">Begin the Journey</a>
       </div>
     </section>
@@ -43,14 +44,10 @@
       <div class="object-stage">
         <div class="object-light light-left"></div>
         <div class="object-light light-right"></div>
-        <p class="scene-label">01&nbsp;&nbsp; / &nbsp;&nbsp;THE LINEUP</p>
-
         <div class="object-copy copy-a">
-          <span>FIRST LOOK</span>
           <h2>Eight compositions.<br>One black case.</h2>
         </div>
         <div class="object-copy copy-b">
-          <span>THE RITUAL</span>
           <h2>Made to be worn<br>before it is chosen.</h2>
         </div>
 
@@ -78,10 +75,6 @@
           <img class="fold-layer" src="assets/images/fold/08.png" alt="Talk Tonight">
         </div>
         <div class="fold-overlay">
-          <div class="fold-kicker">
-            <p class="eyebrow">THE EIGHT</p>
-            <h2>Eight points of view.<br>One house.</h2>
-          </div>
           <div class="fold-active" id="fold-active">
             <span id="fold-num">01</span>
             <h3 id="fold-name">Faith At Last</h3>
@@ -91,33 +84,30 @@
       </div>
     </section>
 
-    <section class="craft" id="craft" aria-label="The art of olfaction">
+    <section class="craft" id="craft" aria-label="Craft">
       <figure class="craft-media">
         <img src="assets/images/craft-iris-macro.jpg" alt="Macro of iris root texture">
       </figure>
-      <div class="craft-copy" data-reveal>
-        <p class="eyebrow">THE ART OF OLFACTION</p>
+      <div class="craft-copy">
         <h2>Crafted, Not Made.</h2>
-        <p>We believe a signature scent is not chosen; it is discovered. Each composition in this inaugural collection was slow-crafted over many months, using exceptional ingredients sourced responsibly from around the world. We don't chase trends; we archive moments. We invite you to find the moment that belongs to you.</p>
+        <p>A signature scent is discovered on skin, not chosen from a list.</p>
       </div>
     </section>
 
     <section class="finder" id="find-your-scent" aria-label="Explore the lineup">
-      <header class="finder-head" data-reveal>
-        <p class="eyebrow">EXPLORE THE LINEUP</p>
+      <header class="finder-head">
         <h2>Begin with curiosity.</h2>
-        <p>Wear each composition on skin. Filter by occasion to see how the eight sit together—ranked for how they live, not for a discount.</p>
+        <p>Wear each on skin. Filter by occasion to see how the eight live together.</p>
       </header>
       <div class="finder-tags" id="finder-tags" role="group" aria-label="Occasions"></div>
-      <p class="finder-status" id="finder-status">All eight, in house order.</p>
+      <p class="finder-status" id="finder-status" aria-live="polite">All eight, in house order.</p>
       <div class="finder-grid" id="finder-grid"></div>
     </section>
 
     <section class="a-plus" id="a-plus" aria-label="The Lineup story">
-      <div class="a-plus-details" data-reveal>
-        <p class="eyebrow">THE LINEUP</p>
-        <h2>An exclusive first-look collection crafted for the curious.</h2>
-        <p>Eight 3&nbsp;ml eaux de parfum and eight spray-reveal cards, held in one black case. A curated lineup to live with before a full bottle is chosen.</p>
+      <div class="a-plus-details">
+        <h2>Eight compositions. One case.</h2>
+        <p>Eight 3&nbsp;ml eaux de parfum and eight spray-reveal cards. Live with the lineup before a full bottle is chosen.</p>
       </div>
 
       <div class="a-plus-strip">
@@ -128,9 +118,8 @@
               <img src="assets/images/open-case.png" alt="Open Lineup case with eight vials and spray cards">
             </figure>
             <div class="a-plus-caption">
-              <span>ESSENCE</span>
               <h3>Eight points of view.</h3>
-              <p>One house, eight compositions—read as a lineup, not a sample pack.</p>
+              <p>One house, eight compositions, read as a lineup.</p>
             </div>
           </article>
           <article class="a-plus-card">
@@ -138,9 +127,8 @@
               <img src="assets/images/vial-3ml.png" alt="3 millilitre spray vial">
             </figure>
             <div class="a-plus-caption">
-              <span>THE 3 ML FORMAT</span>
               <h3>Made to be worn before it is chosen.</h3>
-              <p>Enough to live with a scent through the day—not a blotter, not a bottle.</p>
+              <p>Enough to live with a scent through the day. Not a blotter. Not a bottle.</p>
             </div>
           </article>
           <article class="a-plus-card">
@@ -148,7 +136,6 @@
               <img src="assets/images/cards/talk-tonight.png" alt="Talk Tonight spray-reveal card">
             </figure>
             <div class="a-plus-caption">
-              <span>THE SPRAY CARD</span>
               <h3>Colour and artwork appear with scent.</h3>
               <p>Each card holds a composition in print. Spray, and the picture completes.</p>
             </div>
@@ -158,9 +145,8 @@
               <img src="assets/images/closed-case.png" alt="Closed black Lineup presentation case">
             </figure>
             <div class="a-plus-caption">
-              <span>THE LINEUP</span>
               <h3>Eight compositions. One black case.</h3>
-              <p>A curated collection—closed on the table, open in the hand. Not a kit. Not a sample pack.</p>
+              <p>Closed on the table. Open in the hand.</p>
             </div>
           </article>
           <article class="a-plus-card">
@@ -168,7 +154,6 @@
               <img src="assets/images/samplers/tonic-29.jpg" alt="Tonic 29 sampler still">
             </figure>
             <div class="a-plus-caption">
-              <span>ON SKIN</span>
               <h3>Wear each scent through the day.</h3>
               <p>Talk Tonight, Faith at Last, Café Curio, Tonic 29, Figue Off, Going Home, Quando Noir, Fragile Moss.</p>
             </div>
@@ -179,20 +164,21 @@
     </section>
 
     <section class="closing" id="purchase">
-      <div class="closing-visual">
-        <img class="closing-case" src="assets/images/open-case.png" alt="Opened Lineup gift box with vials in their insert">
-      </div>
-      <div class="closing-copy" data-reveal>
+      <div class="closing-copy">
         <h2>Claim Your Initiation.</h2>
-        <p class="closing-sub">An exclusive first-look collection crafted for the curious.</p>
+        <p class="closing-sub">Wear all eight before you choose a bottle.</p>
         <p class="closing-product">THE LINEUP</p>
         <ul class="closing-facts">
-          <li>Eight compositions, held together—crafted to be explored before they are chosen.</li>
-          <li>Signature brand gift box.</li>
-          <li>Standard complimentary shipping.</li>
+          <li>Eight 3 ml compositions.</li>
+          <li>Signature gift box.</li>
+          <li>Complimentary shipping.</li>
         </ul>
-        <p class="closing-price">1,290</p>
-        <button class="closing-buy" type="button"><span>Acquire the Collection</span></button>
+        <p class="closing-price">INR 1,290</p>
+        <button class="closing-buy" type="button" aria-live="polite"><span>Acquire the Collection</span></button>
+        <p class="closing-note">Returns accepted within 14 days of delivery.</p>
+      </div>
+      <div class="closing-visual">
+        <img class="closing-case" src="assets/images/open-case.png" alt="Opened Lineup case with vials in their insert">
       </div>
     </section>
   </main>
