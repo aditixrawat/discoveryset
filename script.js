@@ -9,8 +9,6 @@ const closedCase = document.querySelector('.closed-layer');
 const openCase = document.querySelector('.open-layer');
 const objectReflection = document.querySelector('.case-reflection');
 const shopDock = document.querySelector('.shop-dock');
-const lifestyle = document.querySelector('.lifestyle');
-const lifestyleImage = document.querySelector('.lifestyle-stage img');
 const lineupFold = document.querySelector('.lineup-fold');
 const foldLayers = [...document.querySelectorAll('.fold-layer')];
 const foldActive = document.getElementById('fold-active');
@@ -39,8 +37,6 @@ let running = false;
 const state = {
   objectCurrent: 0,
   objectTarget: 0,
-  lifestyleCurrent: 0,
-  lifestyleTarget: 0,
   foldCurrent: 0,
   foldTarget: 0
 };
@@ -93,13 +89,6 @@ function inView(element) {
   const rect = element.getBoundingClientRect();
   const mid = innerHeight * .5;
   return rect.top < mid && rect.bottom > mid;
-}
-
-function updateLifestyle(progress) {
-  if (!lifestyleImage) return;
-  const mobile = innerWidth < 701;
-  const shift = reduceMotion ? 0 : (mobile ? mix(-2, 3, progress) : mix(-6, 8, progress));
-  lifestyleImage.style.transform = `translate3d(0, ${shift}%, 0)`;
 }
 
 function writeFoldCopy(index) {
@@ -164,22 +153,16 @@ function updateInterface() {
 function render() {
   state.objectTarget = localProgress(objectFilm);
   state.objectCurrent += (state.objectTarget - state.objectCurrent) * .09;
-  if (lifestyle) {
-    state.lifestyleTarget = localProgress(lifestyle);
-    state.lifestyleCurrent += (state.lifestyleTarget - state.lifestyleCurrent) * .09;
-  }
   if (lineupFold) {
     state.foldTarget = foldScrollPos();
     state.foldCurrent += (state.foldTarget - state.foldCurrent) * .18;
   }
 
   updateObject(state.objectCurrent);
-  updateLifestyle(state.lifestyleCurrent);
   updateFold();
   updateInterface();
 
   const moving = Math.abs(state.objectTarget - state.objectCurrent) > .00035
-    || Math.abs(state.lifestyleTarget - state.lifestyleCurrent) > .00035
     || Math.abs(state.foldTarget - state.foldCurrent) > .00035;
   if (moving) requestAnimationFrame(render);
   else running = false;

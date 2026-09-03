@@ -117,20 +117,7 @@ button { padding: 0; border: 0; background: none; color: inherit; font: inherit;
 .finder-score i { display: block; margin-top: 7px; height: 1px; background: rgba(10,10,10,.12); }
 .finder-score i em { display: block; height: 100%; background: #090909; }
 
-/* Lifestyle parallax — pinned photo, finder/A+ slide over */
-.lifestyle { position: relative; z-index: 0; height: 200svh; background: #070707; }
-.lifestyle-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #070707; }
-.lifestyle-stage img {
-  position: absolute;
-  inset: -12% 0;
-  width: 100%;
-  height: 124%;
-  object-fit: cover;
-  object-position: 18% 28%;
-  will-change: transform;
-}
-
-/* A+ — cream slides over sticky lifestyle, then closing continues */
+/* A+ */
 .a-plus { position: relative; z-index: 2; isolation: isolate; padding: 9vh 0 8vh; background: #f5f2eb; }
 .a-plus-details { max-width: 640px; margin: 0 auto 7vh; padding: 0 var(--pad); }
 .a-plus-details .eyebrow { letter-spacing: .22em; color: rgba(10,10,10,.62); }
@@ -189,7 +176,7 @@ button { padding: 0; border: 0; background: none; color: inherit; font: inherit;
 .a-plus-nav.prev { left: clamp(8px, 2vw, 28px); }
 .a-plus-nav.next { right: clamp(8px, 2vw, 28px); }
 
-/* Close — opaque beige crops over sticky lifestyle */
+/* Close */
 .closing { position: relative; z-index: 2; isolation: isolate; min-height: 100svh; padding: 10vh clamp(28px, 5vw, 80px); display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 96px); align-items: center; background: #f5f2eb; }
 .closing-visual { position: relative; min-height: 72vh; display: grid; place-items: center; padding: 6vh 4vw; }
 .closing-case { position: relative; width: min(58%, 420px); height: auto; max-height: 78vh; object-fit: contain; mix-blend-mode: multiply; }
@@ -240,14 +227,6 @@ footer p { margin: 0; font-size: 8px; letter-spacing: .16em; color: rgba(255,255
   .finder-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 12px; }
   .finder-card h3 { font-size: 12px; }
 
-  .lifestyle { height: 140svh; }
-  .lifestyle-stage { height: 52svh; }
-  .lifestyle-stage img {
-    inset: -6% 0;
-    height: 112%;
-    object-position: 12% 26%;
-  }
-
   .a-plus { padding: 7vh 0 10vh; }
   .a-plus-details { margin-bottom: 5vh; }
   .a-plus-details h2 { font-size: clamp(28px, 8vw, 40px); }
@@ -277,5 +256,4 @@ footer p { margin: 0; font-size: 8px; letter-spacing: .16em; color: rgba(255,255
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *:before, *:after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-  .lifestyle-stage img { inset: 0; height: 100%; transform: none; will-change: auto; }
 }
