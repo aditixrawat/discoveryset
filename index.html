@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#080808">
-  <meta name="description" content="Rare Axis The Lineup fragrance set">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="An exclusive first-look collection crafted for the curious.">
   <title>Rare Axis — The Lineup</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/images/hero-invitation.jpg">
   <link rel="preload" as="image" href="assets/images/open-case.png">
   <link rel="preload" as="image" href="assets/images/fold/01.png">
   <link rel="stylesheet" href="styles.css">
@@ -23,21 +24,33 @@
     <div class="header-actions"><button>SEARCH</button><button>BAG&nbsp; 0</button></div>
   </header>
 
-  <a class="shop-dock" href="#purchase"><span>SHOP NOW</span><i>↗</i></a>
+  <a class="shop-dock dark" href="#purchase"><span>ACQUIRE THE COLLECTION</span><i>↗</i></a>
 
   <main id="top">
+    <section class="launch-hero" id="invitation" aria-label="The Inaugural Discovery Collection">
+      <div class="launch-media" aria-hidden="true">
+        <img src="assets/images/hero-invitation.jpg" alt="">
+      </div>
+      <div class="launch-copy">
+        <p class="eyebrow">THE INAUGURAL COLLECTION</p>
+        <h1>An Invitation to the Unseen.</h1>
+        <p>An exclusive first-look collection crafted for the curious. Explore eight distinct olfactive pathways before they are revealed to the world.</p>
+        <a class="launch-cta" href="#object-film">Begin the Journey</a>
+      </div>
+    </section>
+
     <section class="object-film" id="object-film">
       <div class="object-stage">
         <div class="object-light light-left"></div>
         <div class="object-light light-right"></div>
-        <p class="scene-label">01&nbsp;&nbsp; / &nbsp;&nbsp;THE OBJECT</p>
+        <p class="scene-label">01&nbsp;&nbsp; / &nbsp;&nbsp;THE LINEUP</p>
 
         <div class="object-copy copy-a">
-          <span>THE LINEUP</span>
+          <span>FIRST LOOK</span>
           <h2>Eight compositions.<br>One black case.</h2>
         </div>
         <div class="object-copy copy-b">
-          <span>THE 3 ML FORMAT</span>
+          <span>THE RITUAL</span>
           <h2>Made to be worn<br>before it is chosen.</h2>
         </div>
 
@@ -67,7 +80,7 @@
         <div class="fold-overlay">
           <div class="fold-kicker">
             <p class="eyebrow">THE EIGHT</p>
-            <h2>The set does not<br>rush the choice.</h2>
+            <h2>Eight points of view.<br>One house.</h2>
           </div>
           <div class="fold-active" id="fold-active">
             <span id="fold-num">01</span>
@@ -78,11 +91,22 @@
       </div>
     </section>
 
-    <section class="finder" id="find-your-scent" aria-label="Find your scent">
-      <header class="finder-head">
-        <p class="eyebrow">FIND YOUR SCENT</p>
-        <h2>When are you wearing it?</h2>
-        <p>Choose one or more occasions. Each fragrance is ranked 1–10; the set sorts to the strongest matches.</p>
+    <section class="craft" id="craft" aria-label="The art of olfaction">
+      <figure class="craft-media">
+        <img src="assets/images/craft-iris-macro.jpg" alt="Macro of iris root texture">
+      </figure>
+      <div class="craft-copy" data-reveal>
+        <p class="eyebrow">THE ART OF OLFACTION</p>
+        <h2>Crafted, Not Made.</h2>
+        <p>We believe a signature scent is not chosen; it is discovered. Each composition in this inaugural collection was slow-crafted over many months, using exceptional ingredients sourced responsibly from around the world. We don't chase trends; we archive moments. We invite you to find the moment that belongs to you.</p>
+      </div>
+    </section>
+
+    <section class="finder" id="find-your-scent" aria-label="Explore the lineup">
+      <header class="finder-head" data-reveal>
+        <p class="eyebrow">EXPLORE THE LINEUP</p>
+        <h2>Begin with curiosity.</h2>
+        <p>Wear each composition on skin. Filter by occasion to see how the eight sit together—ranked for how they live, not for a discount.</p>
       </header>
       <div class="finder-tags" id="finder-tags" role="group" aria-label="Occasions"></div>
       <p class="finder-status" id="finder-status">All eight, in house order.</p>
@@ -90,10 +114,10 @@
     </section>
 
     <section class="a-plus" id="a-plus" aria-label="The Lineup story">
-      <div class="a-plus-details">
-        <p class="eyebrow">PRODUCT DETAILS / MATERIALS</p>
-        <h2>Eight vials. Eight cards. One case.</h2>
-        <p>The Lineup is a black presentation case holding eight 3&nbsp;ml eau de parfum samplers and eight spray-reveal cards. Wear each composition on skin before a full bottle is chosen. Glass, paper, and lacquer—made to be handled, not archived.</p>
+      <div class="a-plus-details" data-reveal>
+        <p class="eyebrow">THE LINEUP</p>
+        <h2>An exclusive first-look collection crafted for the curious.</h2>
+        <p>Eight 3&nbsp;ml eaux de parfum and eight spray-reveal cards, held in one black case. A curated lineup to live with before a full bottle is chosen.</p>
       </div>
 
       <div class="a-plus-strip">
@@ -134,9 +158,9 @@
               <img src="assets/images/closed-case.png" alt="Closed black Lineup presentation case">
             </figure>
             <div class="a-plus-caption">
-              <span>THE CASE</span>
+              <span>THE LINEUP</span>
               <h3>Eight compositions. One black case.</h3>
-              <p>A lacquered object for the set—closed on the table, open in the hand.</p>
+              <p>A curated collection—closed on the table, open in the hand. Not a kit. Not a sample pack.</p>
             </div>
           </article>
           <article class="a-plus-card">
@@ -156,23 +180,19 @@
 
     <section class="closing" id="purchase">
       <div class="closing-visual">
-        <img class="closing-case" src="assets/images/open-case.png" alt="Rare Axis The Lineup set">
+        <img class="closing-case" src="assets/images/open-case.png" alt="Opened Lineup gift box with vials in their insert">
       </div>
-      <div class="closing-copy">
-        <p class="eyebrow">RARE AXIS / THE LINEUP</p>
-        <h2>All eight,<br>held together.</h2>
-        <p>The complete Lineup set inside its black presentation case.</p>
-        <ul class="closing-scents">
-          <li>TALK TONIGHT</li>
-          <li>FAITH AT LAST</li>
-          <li>CAFÉ CURIO</li>
-          <li>TONIC 29</li>
-          <li>FIGUE OFF</li>
-          <li>GOING HOME</li>
-          <li>QUANDO NOIR</li>
-          <li>FRAGILE MOSS</li>
+      <div class="closing-copy" data-reveal>
+        <h2>Claim Your Initiation.</h2>
+        <p class="closing-sub">An exclusive first-look collection crafted for the curious.</p>
+        <p class="closing-product">THE LINEUP</p>
+        <ul class="closing-facts">
+          <li>Eight compositions, held together—crafted to be explored before they are chosen.</li>
+          <li>Signature brand gift box.</li>
+          <li>Standard complimentary shipping.</li>
         </ul>
-        <button class="closing-buy"><span>SHOP THE LINEUP</span><i>↗</i></button>
+        <p class="closing-price">1,290</p>
+        <button class="closing-buy" type="button"><span>Acquire the Collection</span></button>
       </div>
     </section>
   </main>

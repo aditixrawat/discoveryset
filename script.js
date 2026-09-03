@@ -8,7 +8,6 @@ const caseRig = document.getElementById('case-rig');
 const closedCase = document.querySelector('.closed-layer');
 const openCase = document.querySelector('.open-layer');
 const objectReflection = document.querySelector('.case-reflection');
-const shopDock = document.querySelector('.shop-dock');
 const lineupFold = document.querySelector('.lineup-fold');
 const foldLayers = [...document.querySelectorAll('.fold-layer')];
 const foldActive = document.getElementById('fold-active');
@@ -84,13 +83,6 @@ function updateObject(progress) {
   document.getElementById('object-meter-fill').style.width = `${progress * 100}%`;
 }
 
-function inView(element) {
-  if (!element) return false;
-  const rect = element.getBoundingClientRect();
-  const mid = innerHeight * .5;
-  return rect.top < mid && rect.bottom > mid;
-}
-
 function writeFoldCopy(index) {
   if (index === foldCopyIndex) return;
   foldCopyIndex = index;
@@ -145,9 +137,6 @@ function updateFold() {
 function updateInterface() {
   const maxScroll = document.documentElement.scrollHeight - innerHeight;
   document.getElementById('page-progress').style.width = `${maxScroll ? scrollY / maxScroll * 100 : 0}%`;
-
-  const onLight = ['.lineup-fold', '.finder', '.a-plus', '.closing'].some(sel => inView(document.querySelector(sel)));
-  shopDock.classList.toggle('dark', onLight);
 }
 
 function render() {
@@ -226,9 +215,9 @@ function renderFinder() {
 
   if (tags.length) {
     const label = tags.map(tag => tag.toUpperCase()).join(' + ');
-    finderStatus.textContent = `Ranked for ${label}. Draft 1–10 scores — Yogesh to confirm.`;
+    finderStatus.textContent = `Ranked for how they live on ${label}.`;
   } else {
-    finderStatus.textContent = 'All eight, in house order.';
+    finderStatus.textContent = 'All eight, in house order. Begin with curiosity.';
   }
 
   finderGrid.innerHTML = ranked.map(({ scent, score }) => {
@@ -265,7 +254,7 @@ if (finderTags) {
 
 document.querySelectorAll('.closing-buy').forEach(button => {
   button.addEventListener('click', () => {
-    document.querySelectorAll('.closing-buy span').forEach(label => { label.textContent = 'ADDED TO BAG'; });
+    document.querySelectorAll('.closing-buy span').forEach(label => { label.textContent = 'COLLECTION ACQUIRED'; });
     document.querySelector('.header-actions button:last-child').textContent = 'BAG  1';
   });
 });
