@@ -11,15 +11,35 @@ const objectReflection = document.querySelector('.case-reflection');
 const shopDock = document.querySelector('.shop-dock');
 const lifestyle = document.querySelector('.lifestyle');
 const lifestyleImage = document.querySelector('.lifestyle-stage img');
+const lineupFold = document.querySelector('.lineup-fold');
+const foldLayers = [...document.querySelectorAll('.fold-layer')];
+const foldItems = [...document.querySelectorAll('.fold-list li')];
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+const foldFrames = [
+  { src: 'assets/images/fold/01.png', alt: 'Faith At Last with bergamot, amber and leather' },
+  { src: 'assets/images/fold/02.png', alt: 'Figue Off with fig, grass and red wood' },
+  { src: 'assets/images/fold/03.png', alt: 'Tonic 29 with yuzu, basil and tea' },
+  { src: 'assets/images/fold/04.png', alt: 'Going Home with jasmine, salt and musk' },
+  { src: 'assets/images/fold/05.png', alt: 'Quando Noir with cypress, suede and patchouli' },
+  { src: 'assets/images/fold/06.png', alt: 'Café Curio with espresso, tobacco and leather' },
+  { src: 'assets/images/fold/07.png', alt: 'Fragile Moss with rhubarb, pepper and vetiver' },
+  { src: 'assets/images/fold/08.png', alt: 'Talk Tonight with champagne, apple and oakmoss' }
+];
+
+foldFrames.forEach(frame => { const preload = new Image(); preload.src = frame.src; });
+
+let foldIndex = 0;
+let foldLayer = 0;
 let running = false;
 
 const state = {
   objectCurrent: 0,
   objectTarget: 0,
   lifestyleCurrent: 0,
-  lifestyleTarget: 0
+  lifestyleTarget: 0,
+  foldCurrent: 0,
+  foldTarget: 0
 };
 
 function localProgress(element) {
@@ -79,11 +99,32 @@ function updateLifestyle(progress) {
   lifestyleImage.style.transform = `translate3d(0, ${shift}%, 0)`;
 }
 
+function setFold(index) {
+  if (index === foldIndex || !foldLayers.length) return;
+  foldIndex = index;
+  const frame = foldFrames[index];
+  const next = 1 - foldLayer;
+  foldLayers[next].src = frame.src;
+  foldLayers[next].alt = frame.alt;
+  requestAnimationFrame(() => {
+    foldLayers[foldLayer].classList.remove('active');
+    foldLayers[next].classList.add('active');
+    foldLayer = next;
+  });
+  foldItems.forEach((item, i) => item.classList.toggle('active', i === index));
+}
+
+function updateFold(progress) {
+  if (!foldItems.length) return;
+  const scaled = clamp(progress * .999) * foldFrames.length;
+  setFold(Math.min(foldFrames.length - 1, Math.floor(scaled)));
+}
+
 function updateInterface() {
   const maxScroll = document.documentElement.scrollHeight - innerHeight;
   document.getElementById('page-progress').style.width = `${maxScroll ? scrollY / maxScroll * 100 : 0}%`;
 
-  const onLight = inView(document.querySelector('.closing'));
+  const onLight = ['.lineup-fold', '.finder', '.a-plus', '.closing'].some(sel => inView(document.querySelector(sel)));
   shopDock.classList.toggle('dark', onLight);
 }
 
@@ -94,13 +135,19 @@ function render() {
     state.lifestyleTarget = localProgress(lifestyle);
     state.lifestyleCurrent += (state.lifestyleTarget - state.lifestyleCurrent) * .09;
   }
+  if (lineupFold) {
+    state.foldTarget = localProgress(lineupFold);
+    state.foldCurrent += (state.foldTarget - state.foldCurrent) * .09;
+  }
 
   updateObject(state.objectCurrent);
   updateLifestyle(state.lifestyleCurrent);
+  updateFold(state.foldCurrent);
   updateInterface();
 
   const moving = Math.abs(state.objectTarget - state.objectCurrent) > .00035
-    || Math.abs(state.lifestyleTarget - state.lifestyleCurrent) > .00035;
+    || Math.abs(state.lifestyleTarget - state.lifestyleCurrent) > .00035
+    || Math.abs(state.foldTarget - state.foldCurrent) > .00035;
   if (moving) requestAnimationFrame(render);
   else running = false;
 }
@@ -109,6 +156,95 @@ function requestRender() {
   if (running) return;
   running = true;
   requestAnimationFrame(render);
+}
+
+const aPlusTrack = document.querySelector('.a-plus-track');
+function scrollAPlus(direction) {
+  if (!aPlusTrack) return;
+  const card = aPlusTrack.querySelector('.a-plus-card');
+  const step = card ? card.getBoundingClientRect().width + 22 : aPlusTrack.clientWidth * .7;
+  aPlusTrack.scrollBy({ left: direction * step, behavior: reduceMotion ? 'auto' : 'smooth' });
+}
+document.querySelector('.a-plus-nav.prev')?.addEventListener('click', () => scrollAPlus(-1));
+document.querySelector('.a-plus-nav.next')?.addEventListener('click', () => scrollAPlus(1));
+
+/*
+  Find Your Scent
+  Yogesh: replace `scores` with a 1–10 ranking per fragrance per tag.
+  Sidharth: Shopify product metafield
+    namespace: lineup
+    key: occasion_scores
+    type: json
+    example: { "day": 8, "night": 5, "party": 3, "office": 9, "date": 6, "brunch": 7, "weekend": 6, "travel": 8 }
+  Scores below are draft placeholders until Yogesh signs off.
+*/
+const OCCASION_TAGS = ['day', 'night', 'party', 'office', 'date', 'brunch', 'weekend', 'travel'];
+
+const scentCatalog = [
+  { handle: 'faith-at-last', name: 'Faith At Last', family: 'AQUA · WOODY', image: 'assets/images/fold/01.png', scores: { day: 8, night: 5, party: 4, office: 8, date: 6, brunch: 7, weekend: 7, travel: 8 } },
+  { handle: 'figue-off', name: 'Figue Off', family: 'GREEN · WOODY', image: 'assets/images/fold/02.png', scores: { day: 8, night: 5, party: 3, office: 6, date: 6, brunch: 7, weekend: 8, travel: 7 } },
+  { handle: 'tonic-29', name: 'Tonic 29', family: 'CITRUS · GREEN', image: 'assets/images/fold/03.png', scores: { day: 9, night: 4, party: 4, office: 8, date: 5, brunch: 9, weekend: 8, travel: 8 } },
+  { handle: 'going-home', name: 'Going Home', family: 'AQUA · MUSKY', image: 'assets/images/fold/04.png', scores: { day: 6, night: 8, party: 3, office: 4, date: 7, brunch: 5, weekend: 7, travel: 6 } },
+  { handle: 'quando-noir', name: 'Quando Noir', family: 'WOODY', image: 'assets/images/fold/05.png', scores: { day: 3, night: 9, party: 7, office: 4, date: 8, brunch: 2, weekend: 6, travel: 5 } },
+  { handle: 'cafe-curio', name: 'Café Curio', family: 'WOODY', image: 'assets/images/fold/06.png', scores: { day: 5, night: 8, party: 5, office: 7, date: 7, brunch: 4, weekend: 6, travel: 6 } },
+  { handle: 'fragile-moss', name: 'Fragile Moss', family: 'WOODY · GREEN', image: 'assets/images/fold/07.png', scores: { day: 8, night: 5, party: 3, office: 7, date: 6, brunch: 6, weekend: 7, travel: 7 } },
+  { handle: 'talk-tonight', name: 'Talk Tonight', family: 'GOURMAND · CITRUS', image: 'assets/images/fold/08.png', scores: { day: 5, night: 8, party: 9, office: 3, date: 8, brunch: 6, weekend: 7, travel: 4 } }
+];
+
+const finderTags = document.getElementById('finder-tags');
+const finderGrid = document.getElementById('finder-grid');
+const finderStatus = document.getElementById('finder-status');
+const selectedOccasions = new Set();
+
+function occasionScore(scent, tags) {
+  if (!tags.length) return 0;
+  return tags.reduce((sum, tag) => sum + (scent.scores[tag] || 0), 0) / tags.length;
+}
+
+function renderFinder() {
+  if (!finderGrid || !finderTags) return;
+  const tags = [...selectedOccasions];
+  const ranked = scentCatalog
+    .map((scent, index) => ({ scent, index, score: occasionScore(scent, tags) }))
+    .sort((a, b) => tags.length ? b.score - a.score || a.index - b.index : a.index - b.index);
+
+  if (tags.length) {
+    const label = tags.map(tag => tag.toUpperCase()).join(' + ');
+    finderStatus.textContent = `Ranked for ${label}. Draft 1–10 scores — Yogesh to confirm.`;
+  } else {
+    finderStatus.textContent = 'All eight, in house order.';
+  }
+
+  finderGrid.innerHTML = ranked.map(({ scent, score }) => {
+    const low = tags.length && score < 6;
+    const meter = tags.length
+      ? `<div class="finder-score"><b>${Math.round(score)} / 10</b><i><em style="width:${score * 10}%"></em></i></div>`
+      : '';
+    return `<article class="finder-card${low ? ' is-low' : ''}" data-handle="${scent.handle}">
+      <figure><img src="${scent.image}" alt="${scent.name}"></figure>
+      <h3>${scent.name}</h3>
+      <p class="finder-family">${scent.family}</p>
+      ${meter}
+    </article>`;
+  }).join('');
+}
+
+if (finderTags) {
+  finderTags.innerHTML = OCCASION_TAGS.map(tag =>
+    `<button class="finder-tag" type="button" data-tag="${tag}" aria-pressed="false">${tag}</button>`
+  ).join('');
+
+  finderTags.addEventListener('click', event => {
+    const button = event.target.closest('[data-tag]');
+    if (!button) return;
+    const tag = button.dataset.tag;
+    if (selectedOccasions.has(tag)) selectedOccasions.delete(tag);
+    else selectedOccasions.add(tag);
+    button.setAttribute('aria-pressed', selectedOccasions.has(tag) ? 'true' : 'false');
+    renderFinder();
+  });
+
+  renderFinder();
 }
 
 document.querySelectorAll('.closing-buy').forEach(button => {

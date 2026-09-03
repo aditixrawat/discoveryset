@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/images/open-case.png">
+  <link rel="preload" as="image" href="assets/images/fold/01.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -51,9 +52,108 @@
       </div>
     </section>
 
+    <section class="lineup-fold" id="lineup-fold" aria-label="The eight compositions">
+      <div class="fold-stage">
+        <div class="fold-media" id="fold-media">
+          <img class="fold-layer active" src="assets/images/fold/01.png" alt="Faith At Last">
+          <img class="fold-layer" src="assets/images/fold/01.png" alt="">
+        </div>
+        <div class="fold-copy">
+          <p class="eyebrow">THE EIGHT</p>
+          <h2>The set does not<br>rush the choice.</h2>
+          <ol class="fold-list" id="fold-list">
+            <li class="active"><span>01</span><div><h3>Faith At Last</h3><p>Bergamot rind, blue amber, cashmere leather.</p></div></li>
+            <li><span>02</span><div><h3>Figue Off</h3><p>Cut grass, fig, red wood.</p></div></li>
+            <li><span>03</span><div><h3>Tonic 29</h3><p>Yuzu citrus, crushed basil, Japanese tea.</p></div></li>
+            <li><span>04</span><div><h3>Going Home</h3><p>Jasmine tea, sea salt, skin musk.</p></div></li>
+            <li><span>05</span><div><h3>Quando Noir</h3><p>Cypress bark, suede leather, dark patchouli.</p></div></li>
+            <li><span>06</span><div><h3>Café Curio</h3><p>Italian espresso, dry tobacco, saffiano leather.</p></div></li>
+            <li><span>07</span><div><h3>Fragile Moss</h3><p>Rhubarb stem, Japanese pepper, Haitian vetiver.</p></div></li>
+            <li><span>08</span><div><h3>Talk Tonight</h3><p>Champagne, green apple, oakmoss.</p></div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="finder" id="find-your-scent" aria-label="Find your scent">
+      <header class="finder-head">
+        <p class="eyebrow">FIND YOUR SCENT</p>
+        <h2>When are you wearing it?</h2>
+        <p>Choose one or more occasions. Each fragrance is ranked 1–10; the set sorts to the strongest matches.</p>
+      </header>
+      <div class="finder-tags" id="finder-tags" role="group" aria-label="Occasions"></div>
+      <p class="finder-status" id="finder-status">All eight, in house order.</p>
+      <div class="finder-grid" id="finder-grid"></div>
+    </section>
+
     <section class="lifestyle" id="lifestyle" aria-label="Lifestyle">
       <div class="lifestyle-stage">
         <img src="assets/images/lifestyle/lineup-wood.jpg" alt="The Lineup case on dark burl wood, a hand lifting Tonic 29">
+      </div>
+    </section>
+
+    <section class="a-plus" id="a-plus" aria-label="The Lineup story">
+      <div class="a-plus-details">
+        <p class="eyebrow">PRODUCT DETAILS / MATERIALS</p>
+        <h2>Eight vials. Eight cards. One case.</h2>
+        <p>The Lineup is a black presentation case holding eight 3&nbsp;ml eau de parfum samplers and eight spray-reveal cards. Wear each composition on skin before a full bottle is chosen. Glass, paper, and lacquer—made to be handled, not archived.</p>
+      </div>
+
+      <div class="a-plus-strip">
+        <button class="a-plus-nav prev" type="button" aria-label="Previous story">‹</button>
+        <div class="a-plus-track" role="region" aria-label="Story modules">
+          <article class="a-plus-card">
+            <figure class="a-plus-media media-paper">
+              <img src="assets/images/open-case.png" alt="Open Lineup case with eight vials and spray cards">
+            </figure>
+            <div class="a-plus-caption">
+              <span>ESSENCE</span>
+              <h3>Eight points of view.</h3>
+              <p>One house, eight compositions—read as a lineup, not a sample pack.</p>
+            </div>
+          </article>
+          <article class="a-plus-card">
+            <figure class="a-plus-media media-studio">
+              <img src="assets/images/vial-3ml.png" alt="3 millilitre spray vial">
+            </figure>
+            <div class="a-plus-caption">
+              <span>THE 3 ML FORMAT</span>
+              <h3>Made to be worn before it is chosen.</h3>
+              <p>Enough to live with a scent through the day—not a blotter, not a bottle.</p>
+            </div>
+          </article>
+          <article class="a-plus-card">
+            <figure class="a-plus-media media-card">
+              <img src="assets/images/cards/talk-tonight.png" alt="Talk Tonight spray-reveal card">
+            </figure>
+            <div class="a-plus-caption">
+              <span>THE SPRAY CARD</span>
+              <h3>Colour and artwork appear with scent.</h3>
+              <p>Each card holds a composition in print. Spray, and the picture completes.</p>
+            </div>
+          </article>
+          <article class="a-plus-card">
+            <figure class="a-plus-media media-paper">
+              <img src="assets/images/closed-case.png" alt="Closed black Lineup presentation case">
+            </figure>
+            <div class="a-plus-caption">
+              <span>THE CASE</span>
+              <h3>Eight compositions. One black case.</h3>
+              <p>A lacquered object for the set—closed on the table, open in the hand.</p>
+            </div>
+          </article>
+          <article class="a-plus-card">
+            <figure class="a-plus-media">
+              <img src="assets/images/samplers/tonic-29.jpg" alt="Tonic 29 sampler still">
+            </figure>
+            <div class="a-plus-caption">
+              <span>ON SKIN</span>
+              <h3>Wear each scent through the day.</h3>
+              <p>Talk Tonight, Faith at Last, Café Curio, Tonic 29, Figue Off, Going Home, Quando Noir, Fragile Moss.</p>
+            </div>
+          </article>
+        </div>
+        <button class="a-plus-nav next" type="button" aria-label="Next story">›</button>
       </div>
     </section>
 
