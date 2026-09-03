@@ -214,14 +214,14 @@ document.querySelector('.a-plus-nav.next')?.addEventListener('click', () => scro
 const OCCASION_TAGS = ['day', 'night', 'party', 'office', 'date', 'brunch', 'weekend', 'travel'];
 
 const scentCatalog = [
-  { handle: 'faith-at-last', name: 'Faith At Last', family: 'AQUA · WOODY', image: 'assets/images/fold/01.png', scores: { day: 8, night: 5, party: 4, office: 8, date: 6, brunch: 7, weekend: 7, travel: 8 } },
-  { handle: 'figue-off', name: 'Figue Off', family: 'GREEN · WOODY', image: 'assets/images/fold/02.png', scores: { day: 8, night: 5, party: 3, office: 6, date: 6, brunch: 7, weekend: 8, travel: 7 } },
-  { handle: 'tonic-29', name: 'Tonic 29', family: 'CITRUS · GREEN', image: 'assets/images/fold/03.png', scores: { day: 9, night: 4, party: 4, office: 8, date: 5, brunch: 9, weekend: 8, travel: 8 } },
-  { handle: 'going-home', name: 'Going Home', family: 'AQUA · MUSKY', image: 'assets/images/fold/04.png', scores: { day: 6, night: 8, party: 3, office: 4, date: 7, brunch: 5, weekend: 7, travel: 6 } },
-  { handle: 'quando-noir', name: 'Quando Noir', family: 'WOODY', image: 'assets/images/fold/05.png', scores: { day: 3, night: 9, party: 7, office: 4, date: 8, brunch: 2, weekend: 6, travel: 5 } },
-  { handle: 'cafe-curio', name: 'Café Curio', family: 'WOODY', image: 'assets/images/fold/06.png', scores: { day: 5, night: 8, party: 5, office: 7, date: 7, brunch: 4, weekend: 6, travel: 6 } },
-  { handle: 'fragile-moss', name: 'Fragile Moss', family: 'WOODY · GREEN', image: 'assets/images/fold/07.png', scores: { day: 8, night: 5, party: 3, office: 7, date: 6, brunch: 6, weekend: 7, travel: 7 } },
-  { handle: 'talk-tonight', name: 'Talk Tonight', family: 'GOURMAND · CITRUS', image: 'assets/images/fold/08.png', scores: { day: 5, night: 8, party: 9, office: 3, date: 8, brunch: 6, weekend: 7, travel: 4 } }
+  { handle: 'faith-at-last', name: 'Faith At Last', family: 'AQUA · WOODY', image: 'assets/images/finder/01.png', scores: { day: 8, night: 5, party: 4, office: 8, date: 6, brunch: 7, weekend: 7, travel: 8 } },
+  { handle: 'figue-off', name: 'Figue Off', family: 'GREEN · WOODY', image: 'assets/images/finder/02.png', scores: { day: 8, night: 5, party: 3, office: 6, date: 6, brunch: 7, weekend: 8, travel: 7 } },
+  { handle: 'tonic-29', name: 'Tonic 29', family: 'CITRUS · GREEN', image: 'assets/images/finder/03.png', scores: { day: 9, night: 4, party: 4, office: 8, date: 5, brunch: 9, weekend: 8, travel: 8 } },
+  { handle: 'going-home', name: 'Going Home', family: 'AQUA · MUSKY', image: 'assets/images/finder/04.png', scores: { day: 6, night: 8, party: 3, office: 4, date: 7, brunch: 5, weekend: 7, travel: 6 } },
+  { handle: 'quando-noir', name: 'Quando Noir', family: 'WOODY', image: 'assets/images/finder/05.png', scores: { day: 3, night: 9, party: 7, office: 4, date: 8, brunch: 2, weekend: 6, travel: 5 } },
+  { handle: 'cafe-curio', name: 'Café Curio', family: 'WOODY', image: 'assets/images/finder/06.png', scores: { day: 5, night: 8, party: 5, office: 7, date: 7, brunch: 4, weekend: 6, travel: 6 } },
+  { handle: 'fragile-moss', name: 'Fragile Moss', family: 'WOODY · GREEN', image: 'assets/images/finder/07.png', scores: { day: 8, night: 5, party: 3, office: 7, date: 6, brunch: 6, weekend: 7, travel: 7 } },
+  { handle: 'talk-tonight', name: 'Talk Tonight', family: 'GOURMAND · CITRUS', image: 'assets/images/finder/08.png', scores: { day: 5, night: 8, party: 9, office: 3, date: 8, brunch: 6, weekend: 7, travel: 4 } }
 ];
 
 const finderTags = document.getElementById('finder-tags');
