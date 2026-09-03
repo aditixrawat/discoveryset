@@ -21,11 +21,11 @@ const foldFrames = [
   { src: 'assets/images/fold/01.png', name: 'Faith At Last', notes: 'Bergamot rind, blue amber, cashmere leather.', alt: 'Faith At Last with bergamot, amber and leather' },
   { src: 'assets/images/fold/02.png', name: 'Figue Off', notes: 'Cut grass, fig, red wood.', alt: 'Figue Off with fig, grass and red wood' },
   { src: 'assets/images/fold/03.png', name: 'Tonic 29', notes: 'Yuzu citrus, crushed basil, Japanese tea.', alt: 'Tonic 29 with yuzu, basil and tea' },
-  { src: 'assets/images/fold/04.png', name: 'Going Home', notes: 'Jasmine tea, sea salt, skin musk.', alt: 'Going Home with jasmine, salt and musk' },
+  { src: 'assets/images/fold/04.png', name: 'Return Softly', notes: 'Jasmine tea, sea salt, skin musk.', alt: 'Return Softly with jasmine, salt and musk' },
   { src: 'assets/images/fold/05.png', name: 'Quando Noir', notes: 'Cypress bark, suede leather, dark patchouli.', alt: 'Quando Noir with cypress, suede and patchouli' },
   { src: 'assets/images/fold/06.png', name: 'Café Curio', notes: 'Italian espresso, dry tobacco, saffiano leather.', alt: 'Café Curio with espresso, tobacco and leather' },
   { src: 'assets/images/fold/07.png', name: 'Fragile Moss', notes: 'Rhubarb stem, Japanese pepper, Haitian vetiver.', alt: 'Fragile Moss with rhubarb, pepper and vetiver' },
-  { src: 'assets/images/fold/08.png', name: 'Talk Tonight', notes: 'Champagne, green apple, oakmoss.', alt: 'Talk Tonight with champagne, apple and oakmoss' }
+  { src: 'assets/images/fold/08.png', name: 'Midnight Chatter', notes: 'Champagne, green apple, oakmoss.', alt: 'Midnight Chatter with champagne, apple and oakmoss' }
 ];
 
 foldFrames.forEach(frame => { const preload = new Image(); preload.src = frame.src; });
@@ -214,11 +214,11 @@ const scentCatalog = [
   { handle: 'faith-at-last', name: 'Faith At Last', family: 'AQUA · WOODY', image: 'assets/images/finder/01.png', tags: ['day', 'office', 'brunch', 'travel', 'weekend'] },
   { handle: 'figue-off', name: 'Figue Off', family: 'GREEN · WOODY', image: 'assets/images/finder/02.png', tags: ['day', 'weekend', 'brunch', 'travel'] },
   { handle: 'tonic-29', name: 'Tonic 29', family: 'CITRUS · GREEN', image: 'assets/images/finder/03.png', tags: ['day', 'office', 'brunch', 'weekend', 'travel'] },
-  { handle: 'going-home', name: 'Going Home', family: 'AQUA · MUSKY', image: 'assets/images/finder/04.png', tags: ['night', 'date', 'weekend'] },
+  { handle: 'return-softly', name: 'Return Softly', family: 'AQUA · MUSKY', image: 'assets/images/finder/04.png', tags: ['night', 'date', 'weekend'] },
   { handle: 'quando-noir', name: 'Quando Noir', family: 'WOODY', image: 'assets/images/finder/05.png', tags: ['night', 'date', 'party'] },
   { handle: 'cafe-curio', name: 'Café Curio', family: 'WOODY', image: 'assets/images/finder/06.png', tags: ['night', 'office', 'date'] },
   { handle: 'fragile-moss', name: 'Fragile Moss', family: 'WOODY · GREEN', image: 'assets/images/finder/07.png', tags: ['day', 'office', 'weekend', 'travel'] },
-  { handle: 'talk-tonight', name: 'Talk Tonight', family: 'GOURMAND · CITRUS', image: 'assets/images/finder/08.png', tags: ['night', 'party', 'date', 'weekend'] }
+  { handle: 'midnight-chatter', name: 'Midnight Chatter', family: 'GOURMAND · CITRUS', image: 'assets/images/finder/08.png', tags: ['night', 'party', 'date', 'weekend'] }
 ];
 
 const finderTags = document.getElementById('finder-tags');

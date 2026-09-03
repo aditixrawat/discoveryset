@@ -161,7 +161,10 @@ button { padding: 0; border: 0; background: none; color: inherit; font: inherit;
   z-index: 1;
   display: grid;
   grid-template-columns: minmax(220px, .8fr) minmax(0, 1.2fr);
-  grid-template-areas: "copy media";
+  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "copy media"
+    "copy brand";
   min-height: calc(100dvh - 86px);
   overflow: hidden;
   background: var(--paper);
@@ -170,25 +173,25 @@ button { padding: 0; border: 0; background: none; color: inherit; font: inherit;
 .launch-media {
   position: relative;
   grid-area: media;
-  min-height: calc(100dvh - 86px);
+  min-height: 0;
   background: var(--paper);
   display: grid;
   place-items: center;
+  padding: 4vh var(--pad) 0;
 }
 .launch-media img {
   width: min(78%, 520px);
   height: auto;
-  max-height: 82dvh;
+  max-height: min(72dvh, 100%);
   object-fit: contain;
   mix-blend-mode: multiply;
 }
 .launch-brand {
   position: relative;
   z-index: 2;
-  grid-area: media;
-  align-self: end;
+  grid-area: brand;
   justify-self: end;
-  padding: 0 var(--pad) 12%;
+  padding: 16px var(--pad) 11vh;
   text-align: right;
   pointer-events: none;
 }
@@ -380,29 +383,29 @@ button { padding: 0; border: 0; background: none; color: inherit; font: inherit;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-areas: "copy media";
-  min-height: 100dvh;
+  align-items: center;
+  gap: clamp(32px, 5vw, 80px);
+  padding: var(--s6) var(--pad);
   background: var(--paper);
 }
 .craft-media {
   grid-area: media;
   margin: 0;
   width: 100%;
-  min-height: 100dvh;
-  height: 100%;
   overflow: hidden;
 }
 .craft-media img {
   width: 100%;
-  height: 100%;
-  min-height: 100dvh;
-  object-fit: cover;
-  object-position: 42% 50%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  object-position: center;
 }
 .craft-copy {
   grid-area: copy;
   align-self: center;
   max-width: none;
-  padding: var(--pad);
+  padding: 0;
 }
 .craft-copy h2 {
   margin: 0;
@@ -580,9 +583,15 @@ footer p { margin: 0; font-size: 11px; font-weight: 500; letter-spacing: .14em; 
     grid-template-rows: minmax(0, 1fr) auto;
     min-height: calc(100dvh - 64px);
   }
-  .launch-media { min-height: 0; }
+  .launch-media { min-height: 0; padding: 2vh 16px 0; }
   .launch-media img { width: min(86%, 360px); max-height: 100%; }
-  .launch-brand { justify-self: end; text-align: right; padding: 0 16px 8px; }
+  .launch-brand {
+    grid-area: media;
+    justify-self: end;
+    align-self: end;
+    text-align: right;
+    padding: 0 16px 8px;
+  }
   .launch-brand h1 span { font-size: 12vw; }
   .launch-copy { padding: 12px 18px 20px; max-width: none; }
 
@@ -616,9 +625,9 @@ footer p { margin: 0; font-size: 11px; font-weight: 500; letter-spacing: .14em; 
   }
   .fold-active h3 { font-size: 22px; }
 
-  .craft { display: block; min-height: 0; }
-  .craft-media { height: 48dvh; min-height: 0; }
-  .craft-media img { min-height: 0; height: 100%; }
+  .craft { display: block; padding: 0; }
+  .craft-media { height: auto; }
+  .craft-media img { width: 100%; height: auto; }
   .craft-copy { padding: var(--s5) 18px var(--s6); }
   .craft-copy h2 { font-size: clamp(32px, 9vw, 44px); }
 
