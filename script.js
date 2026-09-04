@@ -199,12 +199,47 @@ addEventListener('resize', requestRender);
 requestRender();
 
 const aPlusTrack = document.getElementById('a-plus-track') || document.querySelector('.a-plus-track');
-const aPlusLayers = [...document.querySelectorAll('.a-plus-layer')];
+const aPlusSection = document.getElementById('a-plus');
+const aPlusVideos = [...document.querySelectorAll('.a-plus-video')];
+
+function playAPlusVideo(video) {
+  if (!video || reduceMotion) return;
+  const play = video.play();
+  if (play) {
+    play.then(() => video.classList.add('is-playing')).catch(() => video.classList.add('is-poster'));
+  }
+}
+
+function pauseAPlusVideos() {
+  aPlusVideos.forEach(video => {
+    video.pause();
+    if (!video.classList.contains('is-on')) video.currentTime = 0;
+  });
+}
+
+function setAPlusVideo(index) {
+  aPlusVideos.forEach((video, i) => {
+    const on = i === index;
+    video.classList.toggle('is-on', on);
+    if (on) playAPlusVideo(video);
+    else {
+      video.pause();
+      video.currentTime = 0;
+      video.classList.remove('is-playing');
+    }
+  });
+}
+
+aPlusVideos.forEach(video => {
+  video.addEventListener('error', () => video.classList.add('is-poster'));
+  video.addEventListener('emptied', () => video.classList.remove('is-playing'));
+});
+
 if (aPlusTrack) {
   const aPlusCards = [...aPlusTrack.querySelectorAll('.a-plus-card')];
   const setStoryIndex = index => {
     aPlusCards.forEach((card, i) => card.classList.toggle('is-active', i === index));
-    aPlusLayers.forEach((layer, i) => layer.classList.toggle('is-on', i === index));
+    setAPlusVideo(index);
   };
   const cardStep = () => {
     const card = aPlusTrack.querySelector('.a-plus-card');
@@ -236,67 +271,128 @@ if (aPlusTrack) {
   }
   document.querySelector('.a-plus-nav.prev')?.addEventListener('click', () => scrollAPlus(-1));
   document.querySelector('.a-plus-nav.next')?.addEventListener('click', () => scrollAPlus(1));
+
+  setAPlusVideo(0);
 }
 
-const OCCASION_TAGS = ['day', 'night', 'party', 'office', 'date', 'brunch', 'weekend', 'travel'];
+if (aPlusSection && aPlusVideos.length) {
+  new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      const active = aPlusVideos.find(video => video.classList.contains('is-on'));
+      playAPlusVideo(active);
+    } else {
+      pauseAPlusVideos();
+    }
+  }, { threshold: 0.12 }).observe(aPlusSection);
+}
+
+const OCCASION_TAGS = [
+  { id: 'all', label: 'All' },
+  { id: 'date', label: 'Date' },
+  { id: 'gala', label: 'Gala' },
+  { id: 'hike', label: 'Hike' },
+  { id: 'garden', label: 'Garden' },
+  { id: 'sea', label: 'Sea' },
+  { id: 'cafe', label: 'Cafe' }
+];
 
 const scentCatalog = [
-  { handle: 'faith-at-last', name: 'Faith At Last', family: 'AQUA · WOODY', image: 'assets/images/finder/01.png', tags: ['day', 'office', 'brunch', 'travel', 'weekend'] },
-  { handle: 'figue-off', name: 'Figue Off', family: 'GREEN · WOODY', image: 'assets/images/finder/02.png', tags: ['day', 'weekend', 'brunch', 'travel'] },
-  { handle: 'tonic-29', name: 'Tonic 29', family: 'CITRUS · GREEN', image: 'assets/images/finder/03.png', tags: ['day', 'office', 'brunch', 'weekend', 'travel'] },
-  { handle: 'return-softly', name: 'Return Softly', family: 'AQUA · MUSKY', image: 'assets/images/finder/04.png', tags: ['night', 'date', 'weekend'] },
-  { handle: 'quando-noir', name: 'Quando Noir', family: 'WOODY', image: 'assets/images/finder/05.png', tags: ['night', 'date', 'party'] },
-  { handle: 'cafe-curio', name: 'Café Curio', family: 'WOODY', image: 'assets/images/finder/06.png', tags: ['night', 'office', 'date'] },
-  { handle: 'fragile-moss', name: 'Fragile Moss', family: 'WOODY · GREEN', image: 'assets/images/finder/07.png', tags: ['day', 'office', 'weekend', 'travel'] },
-  { handle: 'midnight-chatter', name: 'Midnight Chatter', family: 'GOURMAND · CITRUS', image: 'assets/images/finder/08.png', tags: ['night', 'party', 'date', 'weekend'] }
+  { handle: 'faith-at-last', name: 'Faith At Last', bottle: 'assets/images/bottles/01.png', notes: 'assets/images/notes/faith-at-last.jpg', tags: ['sea', 'hike'] },
+  { handle: 'figue-off', name: 'Figue Off', bottle: 'assets/images/bottles/02.png', notes: 'assets/images/notes/figue-off.jpg', tags: ['garden', 'hike'] },
+  { handle: 'tonic-29', name: 'Tonic 29', bottle: 'assets/images/bottles/03.png', notes: 'assets/images/notes/tonic-29.jpg', tags: ['garden', 'sea', 'hike'] },
+  { handle: 'return-softly', name: 'Return Softly', bottle: 'assets/images/bottles/04.png', notes: 'assets/images/notes/return-softly.jpg', tags: ['date', 'sea'] },
+  { handle: 'quando-noir', name: 'Quando Noir', bottle: 'assets/images/bottles/05.png', notes: 'assets/images/notes/quando-noir.jpg', tags: ['date', 'gala'] },
+  { handle: 'cafe-curio', name: 'Café Curio', bottle: 'assets/images/bottles/06.png', notes: 'assets/images/notes/cafe-curio.jpg', tags: ['cafe', 'date'] },
+  { handle: 'fragile-moss', name: 'Fragile Moss', bottle: 'assets/images/bottles/07.png', notes: 'assets/images/notes/fragile-moss.jpg', tags: ['garden', 'hike'] },
+  { handle: 'midnight-chatter', name: 'Midnight Chatter', bottle: 'assets/images/bottles/08.png', notes: 'assets/images/notes/midnight-chatter.jpg', tags: ['gala', 'date'] }
 ];
 
 const finderTags = document.getElementById('finder-tags');
 const finderGrid = document.getElementById('finder-grid');
 const finderStatus = document.getElementById('finder-status');
-const selectedOccasions = new Set();
+const finderBar = document.getElementById('finder-bar');
+const finderBarName = document.getElementById('finder-bar-name');
+let activeOccasion = 'all';
+let focusedHandle = scentCatalog[0].handle;
+let finderFocusIO;
 
-function matchesOccasions(scent, tags) {
-  if (!tags.length) return true;
-  return tags.every(tag => scent.tags.includes(tag));
+function listedScents() {
+  if (activeOccasion === 'all') return scentCatalog;
+  return scentCatalog.filter(scent => scent.tags.includes(activeOccasion));
+}
+
+function setFocusedScent(handle) {
+  const scent = scentCatalog.find(item => item.handle === handle) || listedScents()[0];
+  if (!scent) return;
+  focusedHandle = scent.handle;
+  if (finderBarName) finderBarName.textContent = scent.name;
+  finderGrid?.querySelectorAll('.finder-cell').forEach(cell => {
+    cell.classList.toggle('is-active', cell.dataset.handle === focusedHandle);
+  });
+}
+
+function bindFinderFocus() {
+  finderFocusIO?.disconnect();
+  const cells = [...(finderGrid?.querySelectorAll('.finder-cell') || [])];
+  if (!cells.length) return;
+  finderFocusIO = new IntersectionObserver(entries => {
+    const visible = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (visible) setFocusedScent(visible.target.dataset.handle);
+  }, { rootMargin: '-35% 0px -35% 0px', threshold: [.25, .5, .75] });
+  cells.forEach(cell => finderFocusIO.observe(cell));
 }
 
 function renderFinder() {
   if (!finderGrid || !finderTags) return;
-  const tags = [...selectedOccasions];
-  const listed = scentCatalog.map((scent, index) => ({ scent, index, match: matchesOccasions(scent, tags) }));
+  const listed = listedScents();
 
-  if (tags.length) {
-    const label = tags.map(tag => tag.toUpperCase()).join(' + ');
-    const count = listed.filter(item => item.match).length;
-    finderStatus.textContent = count
-      ? `Showing ${count} for ${label}.`
-      : `Nothing for ${label}. Try another occasion.`;
-  } else {
+  if (activeOccasion === 'all') {
     finderStatus.textContent = 'All eight, in house order.';
+  } else {
+    const label = OCCASION_TAGS.find(tag => tag.id === activeOccasion)?.label.toUpperCase();
+    finderStatus.textContent = listed.length
+      ? `Showing ${listed.length} for ${label}.`
+      : `Nothing for ${label}. Try another occasion.`;
   }
 
-  finderGrid.innerHTML = listed.map(({ scent, match }) => `
-    <article class="finder-card" data-handle="${scent.handle}" ${tags.length && !match ? 'hidden' : ''}>
-      <figure><img src="${scent.image}" alt="${scent.name}"></figure>
-      <h3>${scent.name}</h3>
-      <p class="finder-family">${scent.family}</p>
-    </article>`).join('');
+  finderGrid.innerHTML = listed.map((scent, index) => {
+    const bottle = `<button class="finder-cell is-bottle" type="button" data-handle="${scent.handle}" aria-label="${scent.name}"><img src="${scent.bottle}" alt=""></button>`;
+    const notes = `<button class="finder-cell is-notes" type="button" data-handle="${scent.handle}" aria-label="${scent.name} notes"><img src="${scent.notes}" alt=""></button>`;
+    return index % 2 === 0 ? bottle + notes : notes + bottle;
+  }).join('');
+
+  if (!listed.some(scent => scent.handle === focusedHandle)) {
+    focusedHandle = listed[0]?.handle || scentCatalog[0].handle;
+  }
+  setFocusedScent(focusedHandle);
+  bindFinderFocus();
 }
 
-if (finderTags) {
-  finderTags.innerHTML = OCCASION_TAGS.map(tag =>
-    `<button class="finder-tag" type="button" data-tag="${tag}" aria-pressed="false">${tag}</button>`
+if (finderTags && finderGrid) {
+  finderTags.innerHTML = OCCASION_TAGS.map((tag, index) =>
+    `<button class="finder-tag" type="button" data-tag="${tag.id}" aria-pressed="${index === 0 ? 'true' : 'false'}">${tag.label}</button>`
   ).join('');
 
   finderTags.addEventListener('click', event => {
     const button = event.target.closest('[data-tag]');
     if (!button) return;
-    const tag = button.dataset.tag;
-    if (selectedOccasions.has(tag)) selectedOccasions.delete(tag);
-    else selectedOccasions.add(tag);
-    button.setAttribute('aria-pressed', selectedOccasions.has(tag) ? 'true' : 'false');
+    activeOccasion = button.dataset.tag;
+    finderTags.querySelectorAll('.finder-tag').forEach(tag => {
+      tag.setAttribute('aria-pressed', tag === button ? 'true' : 'false');
+    });
     renderFinder();
+  });
+
+  finderGrid.addEventListener('pointerover', event => {
+    const cell = event.target.closest('.finder-cell');
+    if (cell) setFocusedScent(cell.dataset.handle);
+  });
+
+  finderGrid.addEventListener('focusin', event => {
+    const cell = event.target.closest('.finder-cell');
+    if (cell) setFocusedScent(cell.dataset.handle);
   });
 
   renderFinder();
@@ -314,6 +410,7 @@ document.querySelectorAll('.closing-buy').forEach(button => {
 const siteHeader = document.querySelector('.site-header');
 const shopDock = document.querySelector('.shop-dock');
 const purchase = document.getElementById('purchase');
+const finderSection = document.querySelector('.finder');
 
 const compactSentinel = document.createElement('div');
 compactSentinel.setAttribute('aria-hidden', 'true');
@@ -326,10 +423,11 @@ new IntersectionObserver(([entry]) => {
 
 let foldReached = false;
 let overPurchase = false;
+let overFinder = false;
 
 function syncShopDock() {
-  if (!shopDock) return;
-  shopDock.classList.toggle('is-hidden', !foldReached || overPurchase);
+  if (shopDock) shopDock.classList.toggle('is-hidden', !foldReached || overPurchase || overFinder);
+  if (finderBar) finderBar.classList.toggle('is-hidden', !overFinder || overPurchase);
 }
 
 if (shopDock && lineupFold) {
@@ -337,6 +435,13 @@ if (shopDock && lineupFold) {
     foldReached = entry.isIntersecting || entry.boundingClientRect.top < 0;
     syncShopDock();
   }, { threshold: 0 }).observe(lineupFold);
+}
+
+if (finderSection) {
+  new IntersectionObserver(([entry]) => {
+    overFinder = entry.isIntersecting;
+    syncShopDock();
+  }, { threshold: 0, rootMargin: '-18% 0px -18% 0px' }).observe(finderSection);
 }
 
 if (shopDock && purchase) {

@@ -22,6 +22,10 @@
   </header>
 
   <a class="shop-dock is-hidden" href="#purchase">Acquire the Collection</a>
+  <div class="finder-bar is-hidden" id="finder-bar">
+    <p class="finder-bar-name" id="finder-bar-name">Faith At Last</p>
+    <a class="finder-bar-cta" href="#purchase">Add to cart</a>
+  </div>
 
   <main id="top">
     <section class="launch-hero" id="invitation" aria-label="The Lineup">
@@ -107,11 +111,22 @@
     <section class="a-plus" id="a-plus" aria-label="Eight compositions. One case.">
       <div class="a-plus-stage">
         <div class="a-plus-bg" aria-hidden="true">
-          <img class="a-plus-layer is-on" src="assets/images/open-case.png" alt="">
-          <img class="a-plus-layer" src="assets/images/vial-3ml.png" alt="">
-          <img class="a-plus-layer" src="assets/images/cards/talk-tonight.png" alt="">
-          <img class="a-plus-layer" src="assets/images/closed-case.png" alt="">
-          <img class="a-plus-layer" src="assets/images/samplers/tonic-29.jpg" alt="">
+          <video class="a-plus-video is-on" data-index="0" muted loop playsinline preload="metadata" poster="assets/images/open-case.png">
+            <source src="assets/video/a-plus-01.mp4" type="video/mp4">
+          </video>
+          <video class="a-plus-video" data-index="1" muted loop playsinline preload="metadata" poster="assets/images/vial-3ml.png">
+            <source src="assets/video/a-plus-02.mp4" type="video/mp4">
+          </video>
+          <video class="a-plus-video" data-index="2" muted loop playsinline preload="metadata" poster="assets/images/cards/talk-tonight.png">
+            <source src="assets/video/a-plus-03.mp4" type="video/mp4">
+          </video>
+          <video class="a-plus-video" data-index="3" muted loop playsinline preload="metadata" poster="assets/images/closed-case.png">
+            <source src="assets/video/a-plus-04.mp4" type="video/mp4">
+          </video>
+          <video class="a-plus-video" data-index="4" muted loop playsinline preload="metadata" poster="assets/images/notes/tonic-29.jpg">
+            <source src="assets/video/a-plus-05.mp4" type="video/mp4">
+          </video>
+          <div class="a-plus-bg-wash"></div>
         </div>
         <h2 class="a-plus-bar">Eight compositions. One case.</h2>
         <div class="a-plus-rail">
@@ -151,7 +166,7 @@
             </article>
             <article class="a-plus-card" data-index="4">
               <figure class="a-plus-media">
-                <img src="assets/images/samplers/tonic-29.jpg" alt="Tonic 29 sampler still">
+                <img src="assets/images/notes/tonic-29.jpg" alt="Tonic 29 worn through the day">
               </figure>
               <div class="a-plus-caption">
                 <h3>Worn through the day.</h3>
